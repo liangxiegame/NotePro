@@ -16,6 +16,8 @@ namespace NotePro
             base.OnEnable();
 
             FontManager.instance.addFont(Resources.Load<Font>("MaterialIcons-Regular"), "Material Icons");
+            FontManager.instance.addFont(Resources.Load<Font>("fonts/ProductSans-Bold"), "Sans Bold");
+            FontManager.instance.addFont(Resources.Load<Font>("fonts/ProductSans-Regular"), "Sans Regular");
         }
 
         protected override Widget createWidget()
@@ -25,19 +27,36 @@ namespace NotePro
             return new StoreProvider<AppState>(
                 store: store,
                 child: new MaterialApp(
-                    home: new Scaffold(
-                        floatingActionButton: new FloatingActionButton(
-                            child: new Icon(Icons.add, color: Colors.black),
-                            onPressed: () => { Debug.Log("on pressed"); },
-                            backgroundColor: Colors.white,
-                            shape: new CircleBorder(
-                                side: new BorderSide(
-                                    color: Colors.black,
-                                    width: 2f
-                                )
+                    theme: new ThemeData(
+                        primarySwatch: Colors.deepPurple,
+                        textTheme: new TextTheme(
+                            headline: new TextStyle(
+                                fontFamily: "Sans Bold",
+                                fontWeight: FontWeight.normal,
+                                fontSize: 24,
+                                color: Colors.black
+                            ),
+                            body1: new TextStyle(
+                                fontFamily: "Sans Bold",
+                                fontWeight: FontWeight.normal,
+                                fontSize: 20,
+                                color: Colors.black
+                            ),
+                            body2: new TextStyle(
+                                fontFamily: "Sans Regular",
+                                fontWeight: FontWeight.normal,
+                                fontSize: 18,
+                                color: Colors.black
+                            ),
+                            subtitle: new TextStyle(
+                                fontFamily: "Sans Regular",
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                color: Colors.black
                             )
                         )
-                    )
+                    ),
+                    home: new NoteList()
                 )
             );
         }

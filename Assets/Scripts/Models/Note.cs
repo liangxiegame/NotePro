@@ -4,12 +4,7 @@ namespace NotePro
 {
     public class Note
     {
-        public string Id = null;
-
-        public void GenId()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
+        public string Id = Guid.NewGuid().ToString();
 
         public string Title;
 
