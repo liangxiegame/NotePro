@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using Unity.UIWidgets.material;
 using Unity.UIWidgets.painting;
 using Unity.UIWidgets.Redux;
 using Unity.UIWidgets.widgets;
+using UnityEngine;
 
 namespace NotePro
 {
@@ -10,7 +12,16 @@ namespace NotePro
         public override Widget build(BuildContext context)
         {
             return new Scaffold(
-                floatingActionButton: new FloatingActionButton(
+                appBar: new AppBar(
+                    title: new Text("Notes",
+                        style: Theme.of(context).textTheme.headline
+                    ),
+                    centerTitle: true,
+                    backgroundColor: Colors.white,
+                    elevation: 0
+                ),
+                floatingActionButton:
+                new FloatingActionButton(
                     child: new Icon(Icons.add, color: Colors.black),
                     onPressed: () =>
                     {
@@ -27,9 +38,24 @@ namespace NotePro
                         )
                     )
                 ),
-                body: new StoreConnector<AppState, int>(
-                    converter: state => state.Notes.Count,
-                    builder: (buildContext, model, dispatcher) => new Text(model.ToString()))
+                body: new StoreConnector<AppState, List<Note>>(
+                    converter: state => state.Notes,
+                    builder: (buildContext, model, dispatcher) =>
+                    {
+                        return ListView.builder(
+                            itemCount: model.Count,
+                            itemBuilder: (context1, index) =>
+                            {
+                                var note = model[index];
+
+                                return new NoteWidget(note, () =>
+                                {
+                                    Debug.Log("开始编辑");
+                                });
+                            }
+                        );
+                    }
+                )
             );
         }
     }
