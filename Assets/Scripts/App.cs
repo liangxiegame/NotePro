@@ -34,13 +34,13 @@ namespace NotePro
                         textTheme: new TextTheme(
                             headline: new TextStyle(
                                 fontFamily: "Sans Bold",
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.bold,
                                 fontSize: 24,
                                 color: Colors.black
                             ),
                             body1: new TextStyle(
                                 fontFamily: "Sans Bold",
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.bold,
                                 fontSize: 20,
                                 color: Colors.black
                             ),

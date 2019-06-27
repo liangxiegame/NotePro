@@ -8,8 +8,30 @@ using UnityEngine;
 
 namespace NotePro
 {
+    public enum NoteEditorMode
+    {
+        /// <summary>
+        /// 创建模式
+        /// </summary>
+        CREATION,
+
+        /// <summary>
+        /// 编辑模式
+        /// </summary>
+        MODIFICATION
+    }
+
     public class NoteEditor : StatefulWidget
     {
+        public NoteEditorMode Mode { get; }
+        public Note           Note { get; }
+
+        public NoteEditor(NoteEditorMode mode, Note note)
+        {
+            this.Mode = mode;
+            this.Note = note;
+        }
+
         public override State createState()
         {
             return new NoteEditorState();
@@ -19,8 +41,34 @@ namespace NotePro
 
     public class NoteEditorState : State<NoteEditor>
     {
-        public string mTitle       = string.Empty;
-        public string mDescription = string.Empty;
+        public override void initState()
+        {
+            base.initState();
+
+            mTitleController = new TextEditingController(widget.Note.Title);
+            mDescriptionController = new TextEditingController(widget.Note.Description);
+        }
+        
+
+        public TextEditingController mTitleController;
+        public TextEditingController mDescriptionController;
+
+        public bool SaveBtnVisible
+        {
+            get
+            {
+                if (widget.Mode == NoteEditorMode.CREATION)
+                {
+                    return !string.IsNullOrWhiteSpace(mTitleController.text);
+                }
+                else
+                {
+                    return !string.IsNullOrWhiteSpace(mTitleController.text) &&
+                           (widget.Note.Title != mTitleController.text ||
+                            widget.Note.Description != mDescriptionController.text);
+                }
+            }
+        }
 
         public override Widget build(BuildContext context)
         {
@@ -40,25 +88,35 @@ namespace NotePro
                             ),
                             actions: new List<Widget>()
                             {
-                                string.IsNullOrEmpty(mTitle)
-                                    ? new Container() as Widget
-                                    : new IconButton(
+                                SaveBtnVisible
+                                    ? new IconButton(
                                         icon: new Icon(Icons.save, color: Colors.black),
                                         onPressed: () =>
                                         {
-                                            dispatcher.dispatch(new AddNoteAction(new Note()
+                                            widget.Note.Title = mTitleController.text;
+                                            widget.Note.Description = mDescriptionController.text;
+                                            
+                                            
+                                            if (widget.Mode == NoteEditorMode.CREATION)
                                             {
-                                                Title = mTitle,
-                                                Description = mDescription,
-                                            }));
+                                                dispatcher.dispatch(new AddNoteAction(widget.Note));
+                                            }
+                                            else
+                                            {
+                                                dispatcher.dispatch(new UpdateNoteAction(widget.Note));
+                                            }
 
                                             Navigator.pop(context);
                                         }
-                                    ),
-                                new IconButton(
-                                    icon: new Icon(Icons.delete, color: Colors.black),
-                                    onPressed: () => { }
-                                )
+                                    )
+                                    : new Container() as Widget,
+
+                                widget.Mode == NoteEditorMode.MODIFICATION
+                                    ? new IconButton(
+                                        icon: new Icon(Icons.delete, color: Colors.black),
+                                        onPressed: () => { }
+                                    ) as Widget
+                                    : new Container()
                             }
                         ),
                         body: new Container(
@@ -69,7 +127,8 @@ namespace NotePro
                                     new Padding(
                                         padding: EdgeInsets.all(16),
                                         child: new TextField(
-                                            onChanged: value => { this.setState(() => { mTitle = value; }); },
+                                            controller: mTitleController,
+                                            onChanged: value => { this.setState(() => { }); },
                                             style: Theme.of(context).textTheme.body1,
                                             decoration: new InputDecoration(
                                                 hintText: "Title"
@@ -80,7 +139,8 @@ namespace NotePro
                                         child: new Padding(
                                             padding: EdgeInsets.all(16),
                                             child: new TextField(
-                                                onChanged: value => { mDescription = value; },
+                                                controller: mDescriptionController,
+                                                onChanged: value => { this.setState(() => {  }); },
                                                 style: Theme.of(context).textTheme.body2,
                                                 keyboardType: TextInputType.multiline,
                                                 maxLength: 255,

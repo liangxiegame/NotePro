@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.UIWidgets.material;
 using Unity.UIWidgets.painting;
+using Unity.UIWidgets.rendering;
 using Unity.UIWidgets.widgets;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace NotePro
 
         private Action mOnClick;
 
-        public NoteWidget(Note note,Action onClick)
+        public NoteWidget(Note note, Action onClick)
         {
             mNote = note;
             mOnClick = onClick;
@@ -41,8 +42,11 @@ namespace NotePro
                                         children: new List<Widget>()
                                         {
                                             new Expanded(
-                                                child: new Text(mNote.Title + mNote.Description,
-                                                    style: Theme.of(context).textTheme.body1
+                                                child: new Padding(
+                                                    padding: EdgeInsets.all(8.0f),
+                                                    child: new Text(mNote.Title,
+                                                        style: Theme.of(context).textTheme.body1
+                                                    )
                                                 )
                                             ),
                                             new Text("!!!", style: new TextStyle(color: Colors.red))
@@ -51,6 +55,7 @@ namespace NotePro
                                     new Padding(
                                         padding: EdgeInsets.all(8.0f),
                                         child: new Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             children: new List<Widget>()
                                             {
                                                 new Expanded(

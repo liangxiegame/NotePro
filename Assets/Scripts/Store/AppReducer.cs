@@ -9,6 +9,8 @@ namespace NotePro
                 case AddNoteAction addNoteAction:
                     previousstate.Notes.Add(addNoteAction.Note);
                     return previousstate;
+                case UpdateNoteAction _:
+                    return previousstate;
             }
 
             return previousstate;

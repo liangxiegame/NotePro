@@ -26,7 +26,7 @@ namespace NotePro
                     onPressed: () =>
                     {
                         Navigator.of(context).push(new MaterialPageRoute(
-                                buildContext => new NoteEditor()
+                                buildContext => new NoteEditor(NoteEditorMode.CREATION, new Note())
                             )
                         );
                     },
@@ -50,7 +50,9 @@ namespace NotePro
 
                                 return new NoteWidget(note, () =>
                                 {
-                                    Debug.Log("开始编辑");
+                                    Navigator.of(context)
+                                        .push(new MaterialPageRoute(ctx =>
+                                            new NoteEditor(NoteEditorMode.MODIFICATION, note)));
                                 });
                             }
                         );

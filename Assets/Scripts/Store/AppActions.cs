@@ -9,4 +9,16 @@ namespace NotePro
 
         public Note Note { get; }
     }
+
+
+    public class UpdateNoteAction
+    {
+        public UpdateNoteAction(Note note)
+        {
+            Note = note;
+        }
+        
+        public Note Note { get; }
+    }
+    
 }
