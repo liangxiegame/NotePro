@@ -20,5 +20,15 @@ namespace NotePro
         
         public Note Note { get; }
     }
+
+    public class DeleteNoteAction
+    {
+        public DeleteNoteAction(Note note)
+        {
+            Note = note;
+        }
+        
+        public Note Note { get; }
+    }
     
 }

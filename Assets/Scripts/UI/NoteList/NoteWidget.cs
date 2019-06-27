@@ -66,6 +66,15 @@ namespace NotePro
                                                 )
                                             }
                                         )
+                                    ),
+                                    new Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: new List<Widget>()
+                                        {
+                                            new Text(mNote.Date,
+                                                style: Theme.of(context).textTheme.subtitle
+                                            )
+                                        }
                                     )
                                 }
                             )

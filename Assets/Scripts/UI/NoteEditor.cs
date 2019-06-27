@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using Unity.UIWidgets.material;
 using Unity.UIWidgets.painting;
 using Unity.UIWidgets.Redux;
 using Unity.UIWidgets.service;
+using Unity.UIWidgets.ui;
 using Unity.UIWidgets.widgets;
 using UnityEngine;
+using DialogUtils = Unity.UIWidgets.material.DialogUtils;
 
 namespace NotePro
 {
@@ -48,7 +51,7 @@ namespace NotePro
             mTitleController = new TextEditingController(widget.Note.Title);
             mDescriptionController = new TextEditingController(widget.Note.Description);
         }
-        
+
 
         public TextEditingController mTitleController;
         public TextEditingController mDescriptionController;
@@ -70,6 +73,103 @@ namespace NotePro
             }
         }
 
+        void ShowDiscardDialog(BuildContext context)
+        {
+            DialogUtils.showDialog(
+                context,
+                builder: buildContext => new AlertDialog(
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0f))
+                    ),
+                    title: new Text(
+                        "Discard Changes?",
+                        style: Theme.of(context).textTheme.body1
+                    ),
+                    content: new Text(
+                        "Are you sure you want to discard changes?",
+                        style: Theme.of(context).textTheme.body2
+                    ),
+                    actions: new List<Widget>()
+                    {
+                        new FlatButton(
+                            child: new Text(
+                                "Yes",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .body1
+                                    .copyWith(color: Colors.purple)
+                            ),
+                            onPressed: () =>
+                            {
+                                Navigator.pop(buildContext);
+                                Navigator.pop(buildContext);
+                            }
+                        ),
+                        new FlatButton(
+                            child: new Text(
+                                "No",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .body1
+                                    .copyWith(color: Colors.purple)
+                            ),
+                            onPressed: () =>
+                            {
+                                Navigator.pop(buildContext);
+                            }
+                        )
+                    }
+                )
+            );
+        }
+
+        void ShowDeleteDialog(BuildContext context, Action onDelete)
+        {
+            DialogUtils.showDialog(
+                context,
+                builder: buildContext => new AlertDialog(
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0f))
+                    ),
+                    title: new Text(
+                        "Delete Note?",
+                        style: Theme.of(context).textTheme.body1
+                    ),
+                    content: new Text(
+                        "Are you sure you want to delete this note?",
+                        style: Theme.of(context).textTheme.body2
+                    ),
+                    actions: new List<Widget>()
+                    {
+                        new FlatButton(
+                            child: new Text(
+                                "Yes",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .body1
+                                    .copyWith(color: Colors.purple)
+                            ),
+                            onPressed: () =>
+                            {
+                                Navigator.pop(buildContext);
+                                onDelete.Invoke();
+                            }
+                        ),
+                        new FlatButton(
+                            child: new Text(
+                                "No",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .body1
+                                    .copyWith(color: Colors.purple)
+                            ),
+                            onPressed: () => { Navigator.pop(buildContext); }
+                        )
+                    }
+                )
+            );
+        }
+
         public override Widget build(BuildContext context)
         {
             return new StoreConnector<AppState, object>(
@@ -84,7 +184,18 @@ namespace NotePro
                             backgroundColor: Colors.white,
                             leading: new IconButton(
                                 icon: new Icon(Icons.arrow_back_ios, color: Colors.black),
-                                onPressed: () => { Navigator.of(context).pop(); }
+                                onPressed: () =>
+                                {
+                                    if (widget.Mode == NoteEditorMode.MODIFICATION && SaveBtnVisible)
+                                    {
+                                        ShowDiscardDialog(context);
+                                    }
+                                    else
+                                    {
+                                        Navigator.of(context).pop();
+                                    }
+
+                                }
                             ),
                             actions: new List<Widget>()
                             {
@@ -95,8 +206,8 @@ namespace NotePro
                                         {
                                             widget.Note.Title = mTitleController.text;
                                             widget.Note.Description = mDescriptionController.text;
-                                            
-                                            
+
+
                                             if (widget.Mode == NoteEditorMode.CREATION)
                                             {
                                                 dispatcher.dispatch(new AddNoteAction(widget.Note));
@@ -114,7 +225,14 @@ namespace NotePro
                                 widget.Mode == NoteEditorMode.MODIFICATION
                                     ? new IconButton(
                                         icon: new Icon(Icons.delete, color: Colors.black),
-                                        onPressed: () => { }
+                                        onPressed: () =>
+                                        {
+                                            ShowDeleteDialog(context, () =>
+                                            {
+                                                dispatcher.dispatch(new DeleteNoteAction(widget.Note));
+                                                Navigator.of(context).pop();
+                                            });
+                                        }
                                     ) as Widget
                                     : new Container()
                             }
@@ -140,7 +258,7 @@ namespace NotePro
                                             padding: EdgeInsets.all(16),
                                             child: new TextField(
                                                 controller: mDescriptionController,
-                                                onChanged: value => { this.setState(() => {  }); },
+                                                onChanged: value => { this.setState(() => { }); },
                                                 style: Theme.of(context).textTheme.body2,
                                                 keyboardType: TextInputType.multiline,
                                                 maxLength: 255,
