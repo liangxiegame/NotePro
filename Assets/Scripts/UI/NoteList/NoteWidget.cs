@@ -81,7 +81,7 @@ namespace NotePro
                                                 child: new Padding(
                                                     padding: EdgeInsets.all(8.0f),
                                                     child: new Text(mNote.Title,
-                                                        style: Theme.of(context).textTheme.body1
+                                                        style: Theme.of(context).textTheme.title
                                                     )
                                                 )
                                             ),
@@ -97,7 +97,7 @@ namespace NotePro
                                                 new Expanded(
                                                     child: new Text(
                                                         mNote.Description ?? "",
-                                                        style: Theme.of(context).textTheme.body2
+                                                        style: Theme.of(context).textTheme.subhead
                                                     )
                                                 )
                                             }

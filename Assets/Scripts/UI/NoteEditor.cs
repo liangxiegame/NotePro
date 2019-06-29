@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using markdown;
 using Unity.UIWidgets.material;
 using Unity.UIWidgets.painting;
 using Unity.UIWidgets.Redux;
+using Unity.UIWidgets.rendering;
 using Unity.UIWidgets.service;
 using Unity.UIWidgets.ui;
 using Unity.UIWidgets.widgets;
 using UnityEngine;
 using DialogUtils = Unity.UIWidgets.material.DialogUtils;
+using Text = Unity.UIWidgets.widgets.Text;
 
 namespace NotePro
 {
@@ -89,7 +92,7 @@ namespace NotePro
                     ),
                     title: new Text(
                         L.of(context).DiscardChanges,
-                        style: Theme.of(context).textTheme.body1
+                        style: Theme.of(context).textTheme.title
                     ),
                     content: new Text(
                         L.of(context).DiscardChangesContent,
@@ -102,7 +105,7 @@ namespace NotePro
                                 L.of(context).Yes,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .body1
+                                    .title
                                     .copyWith(color: Colors.purple)
                             ),
                             onPressed: () =>
@@ -116,7 +119,7 @@ namespace NotePro
                                 L.of(context).No,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .body1
+                                    .title
                                     .copyWith(color: Colors.purple)
                             ),
                             onPressed: () => { Navigator.pop(buildContext); }
@@ -136,7 +139,7 @@ namespace NotePro
                     ),
                     title: new Text(
                         L.of(context).DeleteNote,
-                        style: Theme.of(context).textTheme.body1
+                        style: Theme.of(context).textTheme.title
                     ),
                     content: new Text(
                         L.of(context).DeleteNoteContent,
@@ -149,7 +152,7 @@ namespace NotePro
                                 L.of(context).Yes,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .body1
+                                    .title
                                     .copyWith(color: Colors.purple)
                             ),
                             onPressed: () =>
@@ -163,7 +166,7 @@ namespace NotePro
                                 L.of(context).No,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .body1
+                                    .title
                                     .copyWith(color: Colors.purple)
                             ),
                             onPressed: () => { Navigator.pop(buildContext); }
@@ -258,7 +261,7 @@ namespace NotePro
                                         child: new TextField(
                                             controller: mTitleController,
                                             onChanged: value => { this.setState(() => { }); },
-                                            style: Theme.of(context).textTheme.body1,
+                                            style: Theme.of(context).textTheme.title,
                                             decoration: new InputDecoration(
                                                 hintText: L.of(context).Title
                                             )
@@ -267,16 +270,40 @@ namespace NotePro
                                     new Expanded(
                                         child: new Padding(
                                             padding: EdgeInsets.all(16),
-                                            child: new TextField(
-                                                controller: mDescriptionController,
-                                                onChanged: value => { this.setState(() => { }); },
-                                                style: Theme.of(context).textTheme.body2,
-                                                keyboardType: TextInputType.multiline,
-                                                maxLength: 255,
-                                                maxLines: 10,
-                                                decoration: new InputDecoration(
-                                                    hintText: L.of(context).Description
-                                                )
+                                            child: new Column(
+                                                children: new List<Widget>()
+                                                {
+                                                    new TextField(
+                                                        controller: mDescriptionController,
+                                                        onChanged: value => { this.setState(() => { }); },
+                                                        style: Theme.of(context).textTheme.subhead,
+                                                        keyboardType: TextInputType.multiline,
+                                                        maxLength: 255,
+                                                        maxLines: 10,
+                                                        decoration: new InputDecoration(
+                                                            hintText: L.of(context).Description
+                                                        )
+                                                    ),
+                                                    new Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: new List<Widget>
+                                                        {
+                                                            new OutlineButton(
+                                                                child: new Text("Markdown 预览",
+                                                                    style: Theme.of(context).textTheme.subhead),
+                                                                onPressed: () =>
+                                                                {
+                                                                    Navigator.of(context)
+                                                                        .push(new MaterialPageRoute(
+                                                                            builder: context1 =>
+                                                                                new MarkdownPreviewer(mColorIndex,
+                                                                                    mTitleController.text,
+                                                                                    mDescriptionController.text)));
+                                                                }
+                                                            )
+                                                        }
+                                                    ),
+                                                }
                                             )
                                         )
                                     )
