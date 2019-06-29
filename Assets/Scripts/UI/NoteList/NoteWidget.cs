@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Unity.UIWidgets.material;
 using Unity.UIWidgets.painting;
 using Unity.UIWidgets.rendering;
+using Unity.UIWidgets.ui;
 using Unity.UIWidgets.widgets;
-using UnityEngine;
 
 namespace NotePro
 {
@@ -18,6 +18,42 @@ namespace NotePro
         {
             mNote = note;
             mOnClick = onClick;
+        }
+
+        Color mPriorityColor
+        {
+            get
+            {
+                switch (mNote.Priority)
+                {
+                    case 0:
+                        return Colors.green;
+                    case 1:
+                        return Colors.yellow;
+                    case 2:
+                        return Colors.red;
+                }
+
+                return Colors.yellow;
+            }
+        }
+
+        string mPriorityText
+        {
+            get
+            {
+                switch (mNote.Priority)
+                {
+                    case 0:
+                        return "!";
+                    case 1:
+                        return "!!";
+                    case 2:
+                        return "!!!";
+                }
+
+                return "!!";
+            }
         }
 
         public override Widget build(BuildContext context)
@@ -49,7 +85,7 @@ namespace NotePro
                                                     )
                                                 )
                                             ),
-                                            new Text("!!!", style: new TextStyle(color: Colors.red))
+                                            new Text(mPriorityText, style: new TextStyle(color: mPriorityColor))
                                         }
                                     ),
                                     new Padding(

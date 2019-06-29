@@ -50,11 +50,13 @@ namespace NotePro
 
             mTitleController = new TextEditingController(widget.Note.Title);
             mDescriptionController = new TextEditingController(widget.Note.Description);
+            mPriorityIndex = widget.Note.Priority;
         }
 
 
-        public TextEditingController mTitleController;
-        public TextEditingController mDescriptionController;
+        private TextEditingController mTitleController;
+        private TextEditingController mDescriptionController;
+        private int                   mPriorityIndex = 0;
 
         public bool SaveBtnVisible
         {
@@ -68,7 +70,8 @@ namespace NotePro
                 {
                     return !string.IsNullOrWhiteSpace(mTitleController.text) &&
                            (widget.Note.Title != mTitleController.text ||
-                            widget.Note.Description != mDescriptionController.text);
+                            widget.Note.Description != mDescriptionController.text ||
+                            widget.Note.Priority != mPriorityIndex);
                 }
             }
         }
@@ -113,10 +116,7 @@ namespace NotePro
                                     .body1
                                     .copyWith(color: Colors.purple)
                             ),
-                            onPressed: () =>
-                            {
-                                Navigator.pop(buildContext);
-                            }
+                            onPressed: () => { Navigator.pop(buildContext); }
                         )
                     }
                 )
@@ -179,7 +179,7 @@ namespace NotePro
                     return new Scaffold(
                         appBar: new AppBar(
                             elevation: 0,
-                            title: new Text("Add Note",
+                            title: new Text(widget.Mode == NoteEditorMode.CREATION ? "Add Note" : "Edit Note",
                                 style: Theme.of(context).textTheme.headline),
                             backgroundColor: Colors.white,
                             leading: new IconButton(
@@ -194,7 +194,6 @@ namespace NotePro
                                     {
                                         Navigator.of(context).pop();
                                     }
-
                                 }
                             ),
                             actions: new List<Widget>()
@@ -206,6 +205,7 @@ namespace NotePro
                                         {
                                             widget.Note.Title = mTitleController.text;
                                             widget.Note.Description = mDescriptionController.text;
+                                            widget.Note.Priority = mPriorityIndex;
 
 
                                             if (widget.Mode == NoteEditorMode.CREATION)
@@ -242,6 +242,10 @@ namespace NotePro
                             child: new Column(
                                 children: new List<Widget>()
                                 {
+                                    new PriorityPicker(
+                                        mPriorityIndex,
+                                        priorityIndex => { setState(() => { mPriorityIndex = priorityIndex; }); }
+                                    ),
                                     new Padding(
                                         padding: EdgeInsets.all(16),
                                         child: new TextField(
