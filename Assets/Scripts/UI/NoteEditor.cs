@@ -88,18 +88,18 @@ namespace NotePro
                         borderRadius: BorderRadius.all(Radius.circular(10.0f))
                     ),
                     title: new Text(
-                        "Discard Changes?",
+                        L.of(context).DiscardChanges,
                         style: Theme.of(context).textTheme.body1
                     ),
                     content: new Text(
-                        "Are you sure you want to discard changes?",
+                        L.of(context).DiscardChangesContent,
                         style: Theme.of(context).textTheme.body2
                     ),
                     actions: new List<Widget>()
                     {
                         new FlatButton(
                             child: new Text(
-                                "Yes",
+                                L.of(context).Yes,
                                 style: Theme.of(context)
                                     .textTheme
                                     .body1
@@ -113,7 +113,7 @@ namespace NotePro
                         ),
                         new FlatButton(
                             child: new Text(
-                                "No",
+                                L.of(context).No,
                                 style: Theme.of(context)
                                     .textTheme
                                     .body1
@@ -135,18 +135,18 @@ namespace NotePro
                         borderRadius: BorderRadius.all(Radius.circular(10.0f))
                     ),
                     title: new Text(
-                        "Delete Note?",
+                        L.of(context).DeleteNote,
                         style: Theme.of(context).textTheme.body1
                     ),
                     content: new Text(
-                        "Are you sure you want to delete this note?",
+                        L.of(context).DeleteNoteContent,
                         style: Theme.of(context).textTheme.body2
                     ),
                     actions: new List<Widget>()
                     {
                         new FlatButton(
                             child: new Text(
-                                "Yes",
+                                L.of(context).Yes,
                                 style: Theme.of(context)
                                     .textTheme
                                     .body1
@@ -160,7 +160,7 @@ namespace NotePro
                         ),
                         new FlatButton(
                             child: new Text(
-                                "No",
+                                L.of(context).No,
                                 style: Theme.of(context)
                                     .textTheme
                                     .body1
@@ -182,7 +182,8 @@ namespace NotePro
                     return new Scaffold(
                         appBar: new AppBar(
                             elevation: 0,
-                            title: new Text(widget.Mode == NoteEditorMode.CREATION ? "Add Note" : "Edit Note",
+                            title: new Text(
+                                widget.Mode == NoteEditorMode.CREATION ? L.of(context).AddNote : L.of(context).EditNote,
                                 style: Theme.of(context).textTheme.headline),
                             backgroundColor: AppConst.Colors[mColorIndex],
                             leading: new IconButton(
@@ -259,7 +260,7 @@ namespace NotePro
                                             onChanged: value => { this.setState(() => { }); },
                                             style: Theme.of(context).textTheme.body1,
                                             decoration: new InputDecoration(
-                                                hintText: "Title"
+                                                hintText: L.of(context).Title
                                             )
                                         )
                                     ),
@@ -274,7 +275,7 @@ namespace NotePro
                                                 maxLength: 255,
                                                 maxLines: 10,
                                                 decoration: new InputDecoration(
-                                                    hintText: "Description"
+                                                    hintText: L.of(context).Description
                                                 )
                                             )
                                         )

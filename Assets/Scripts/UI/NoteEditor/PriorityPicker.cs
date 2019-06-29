@@ -36,11 +36,11 @@ namespace NotePro
             Colors.red
         };
 
-        private string[] mPriorityTexts =
+        private Func<BuildContext, string>[] mPriorityTexts =
         {
-            "Low",
-            "High",
-            "Very High"
+            context => L.of(context).Low,
+            context => L.of(context).High,
+            context => L.of(context).VeryHigh
         };
 
         public override void initState()
@@ -72,7 +72,7 @@ namespace NotePro
                                 child: new Container(
                                     child: new Center(
                                         child: new Text(
-                                            mPriorityTexts[index],
+                                            mPriorityTexts[index](context),
                                             style: new TextStyle(
                                                 color: mSelectedIndex == index
                                                     ? Colors.white

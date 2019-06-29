@@ -1,4 +1,5 @@
-﻿using QFramework.UIWidgets.ReduxPersist;
+﻿using System.Collections.Generic;
+using QFramework.UIWidgets.ReduxPersist;
 using Unity.UIWidgets;
 using Unity.UIWidgets.engine;
 using Unity.UIWidgets.material;
@@ -29,6 +30,12 @@ namespace NotePro
             return new StoreProvider<AppState>(
                 store: store,
                 child: new MaterialApp(
+                    localizationsDelegates: new List<LocalizationsDelegate<MaterialLocalizations>>()
+                    {
+                        CustomLocalizationDelegate.Del,
+                        DefaultMaterialLocalizations.del
+                    },
+                    supportedLocales: CustomLocalizationDelegate.SupportedLocales,
                     theme: new ThemeData(
                         primarySwatch: Colors.deepPurple,
                         textTheme: new TextTheme(

@@ -13,7 +13,7 @@ namespace NotePro
         {
             return new Scaffold(
                 appBar: new AppBar(
-                    title: new Text("Notes",
+                    title: new Text(L.of(context).Notes,
                         style: Theme.of(context).textTheme.headline
                     ),
                     centerTitle: true,
