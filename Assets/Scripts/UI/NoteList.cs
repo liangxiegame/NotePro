@@ -38,6 +38,7 @@ namespace NotePro
                         )
                     )
                 ),
+                backgroundColor: Colors.white,
                 body: new StoreConnector<AppState, List<Note>>(
                     converter: state => state.Notes,
                     builder: (buildContext, model, dispatcher) =>

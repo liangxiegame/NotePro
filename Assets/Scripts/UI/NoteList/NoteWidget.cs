@@ -67,7 +67,7 @@ namespace NotePro
                         child: new Container(
                             padding: EdgeInsets.all(8),
                             decoration: new BoxDecoration(
-                                color: Colors.white,
+                                color: AppConst.Colors[mNote.ColorIndex],
                                 border: Border.all(width: 2, color: Colors.black),
                                 borderRadius: BorderRadius.circular(8.0f)
                             ),

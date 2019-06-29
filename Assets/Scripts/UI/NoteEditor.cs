@@ -51,12 +51,14 @@ namespace NotePro
             mTitleController = new TextEditingController(widget.Note.Title);
             mDescriptionController = new TextEditingController(widget.Note.Description);
             mPriorityIndex = widget.Note.Priority;
+            mColorIndex = widget.Note.ColorIndex;
         }
 
 
         private TextEditingController mTitleController;
         private TextEditingController mDescriptionController;
         private int                   mPriorityIndex = 0;
+        private int                   mColorIndex    = 0;
 
         public bool SaveBtnVisible
         {
@@ -71,7 +73,8 @@ namespace NotePro
                     return !string.IsNullOrWhiteSpace(mTitleController.text) &&
                            (widget.Note.Title != mTitleController.text ||
                             widget.Note.Description != mDescriptionController.text ||
-                            widget.Note.Priority != mPriorityIndex);
+                            widget.Note.Priority != mPriorityIndex ||
+                            widget.Note.ColorIndex != mColorIndex);
                 }
             }
         }
@@ -181,7 +184,7 @@ namespace NotePro
                             elevation: 0,
                             title: new Text(widget.Mode == NoteEditorMode.CREATION ? "Add Note" : "Edit Note",
                                 style: Theme.of(context).textTheme.headline),
-                            backgroundColor: Colors.white,
+                            backgroundColor: AppConst.Colors[mColorIndex],
                             leading: new IconButton(
                                 icon: new Icon(Icons.arrow_back_ios, color: Colors.black),
                                 onPressed: () =>
@@ -206,6 +209,7 @@ namespace NotePro
                                             widget.Note.Title = mTitleController.text;
                                             widget.Note.Description = mDescriptionController.text;
                                             widget.Note.Priority = mPriorityIndex;
+                                            widget.Note.ColorIndex = mColorIndex;
 
 
                                             if (widget.Mode == NoteEditorMode.CREATION)
@@ -238,7 +242,7 @@ namespace NotePro
                             }
                         ),
                         body: new Container(
-                            color: Colors.white,
+                            color: AppConst.Colors[mColorIndex],
                             child: new Column(
                                 children: new List<Widget>()
                                 {
@@ -246,6 +250,8 @@ namespace NotePro
                                         mPriorityIndex,
                                         priorityIndex => { setState(() => { mPriorityIndex = priorityIndex; }); }
                                     ),
+                                    new ColorPicker(mColorIndex,
+                                        colorIndex => { setState(() => { mColorIndex = colorIndex; }); }),
                                     new Padding(
                                         padding: EdgeInsets.all(16),
                                         child: new TextField(
