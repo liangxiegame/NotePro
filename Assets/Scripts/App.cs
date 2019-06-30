@@ -38,6 +38,7 @@ namespace NotePro
                     supportedLocales: CustomLocalizationDelegate.SupportedLocales,
                     theme: new ThemeData(
                         primarySwatch: Colors.deepPurple,
+                        accentColor: Colors.black,
                         iconTheme: new IconThemeData(
                             color: Colors.black
                         ),

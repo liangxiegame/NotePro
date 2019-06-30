@@ -26,8 +26,7 @@ namespace NotePro
         {
             var lang = "en_US";
 
-            if (Application.systemLanguage == SystemLanguage.Chinese ||
-                Application.systemLanguage == SystemLanguage.ChineseSimplified)
+            if (L.IsChinese)
             {
                 lang = "zh_CN";
             }

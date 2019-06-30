@@ -3,6 +3,7 @@ using System.Linq;
 using Unity.UIWidgets.material;
 using Unity.UIWidgets.painting;
 using Unity.UIWidgets.Redux;
+using Unity.UIWidgets.ui;
 using Unity.UIWidgets.widgets;
 
 namespace NotePro
@@ -16,29 +17,34 @@ namespace NotePro
                 builder: (buildCtx, model, dispatcher) =>
                 {
                     var filter = model.Filter;
+                    Widget text = new Text(filter.Title,
+                        style: Theme.of(context).textTheme.headline
+                    );
+
 
                     var list = model.Notes
                         .Where(note =>
                         {
-                            if (filter.Type == FilterType.ByInbox)
+                            switch (filter.Type)
                             {
-                                return note.Priority == 0 && note.ColorIndex == 0;
-                            }
+                                case FilterType.ByInbox:
+                                    return note.Priority == 0 && note.ColorIndex == 0;
+                                case FilterType.ByAll:
+                                    return true;
+                                case FilterType.ByColor:
 
-                            if (filter.Type == FilterType.ByAll)
-                            {
-                                return true;
-                            }
+                                    text = new ColorCircle(filter.ColorIndex,size:35);
 
-                            return false;
+                                    return note.ColorIndex == filter.ColorIndex;
+                                default:
+                                    return false;
+                            }
                         })
                         .ToList();
 
                     return new Scaffold(
                         appBar: new AppBar(
-                            title: new Text(filter.Title,
-                                style: Theme.of(context).textTheme.headline
-                            ),
+                            title: text,
                             centerTitle: true,
                             backgroundColor: Colors.white,
                             elevation: 0,

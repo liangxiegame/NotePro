@@ -15,7 +15,7 @@ namespace NotePro
             this.Index = index;
             this.OnTap = onTap;
         }
-        
+
         public override State createState()
         {
             return new ColorPickerState();
@@ -50,20 +50,46 @@ namespace NotePro
 
                                 widget.OnTap(index);
                             },
-                            child: new Container(
-                                child: mSelectedIndex == index
-                                    ? new Center(
-                                        child: new Icon(Icons.done)
-                                    ) as Widget
-                                    : new Container(),
-                                decoration: new BoxDecoration(
-                                    color: AppConst.Colors[index],
-                                    shape: BoxShape.circle,
-                                    border: Border.all(width: 2, color: Colors.black)
-                                )
+                            child: new ColorCircle(
+                                index: index,
+                                selected: index == mSelectedIndex
                             )
                         )
                     )
+                )
+            );
+        }
+    }
+
+    public class ColorCircle : StatelessWidget
+    {
+        private int mIndex;
+
+        private bool mSelected = false;
+
+        private float? mSize = null;
+
+        public ColorCircle(int index, bool selected = false, float? size = null)
+        {
+            mIndex = index;
+            mSelected = selected;
+            mSize = size;
+        }
+
+        public override Widget build(BuildContext context)
+        {
+            return new Container(
+                width: mSize,
+                height: mSize,
+                child: mSelected
+                    ? new Center(
+                        child: new Icon(Icons.done)
+                    ) as Widget
+                    : new Container(),
+                decoration: new BoxDecoration(
+                    color: AppConst.Colors[mIndex],
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 2, color: Colors.black)
                 )
             );
         }

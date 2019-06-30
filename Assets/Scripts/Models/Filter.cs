@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using Unity.UIWidgets.widgets;
 
 namespace NotePro
@@ -15,26 +14,38 @@ namespace NotePro
 
     public class Filter
     {
-        public static Filter ByInbox()
+        public static Filter ByInbox(BuildContext context)
         {
             return new Filter()
             {
-                Title = "收件箱",
+                Title = L.of(context).Inbox,
                 Type = FilterType.ByInbox
             };
         }
 
-        public static Filter ByAll()
+        public static Filter ByAll(BuildContext context)
         {
             return new Filter()
             {
-                Title = "全部笔记",
+                Title = L.of(context).All,
                 Type = FilterType.ByAll
+            };
+        }
+        
+        public static Filter ByColor(BuildContext context, int colorIndex)
+        {
+            return new Filter()
+            {
+                Title = L.of(context).Color,
+                Type = FilterType.ByColor,
+                ColorIndex = colorIndex
             };
         }
 
         public string Title;
 
         public FilterType Type;
+
+        public int ColorIndex;
     }
 }
