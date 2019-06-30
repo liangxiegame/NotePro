@@ -24,7 +24,18 @@ namespace NotePro
         public override string Description => "描述";
         
         
-        
+        #region 过滤
+
+        public override string Inbox => "收件箱";
+        public override string All   => "全部笔记";
+
+        public override string Priority => "优先级";
+
+        public override string Color => "颜色";
+
+        public override string Notebook => "笔记本";
+
+        #endregion
 
     }
 }

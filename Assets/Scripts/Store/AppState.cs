@@ -6,5 +6,7 @@ namespace NotePro
     public class AppState : AbstractPersistState<AppState>
     {
         public List<Note> Notes = new List<Note>();
+
+        public Filter Filter = Filter.ByInbox();
     }
 }

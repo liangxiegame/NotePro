@@ -29,5 +29,19 @@ namespace NotePro
         public virtual string Title       => "Title";
         public virtual string Description => "Description";
 
+
+        #region 过滤
+
+        public virtual string Inbox => "Inbox";
+        public virtual string All => "All";
+
+        public virtual string Priority => "Priority";
+
+        public virtual string Color => "Color";
+
+        public virtual string Notebook => "Notebook";
+
+        #endregion
+
     }
 }

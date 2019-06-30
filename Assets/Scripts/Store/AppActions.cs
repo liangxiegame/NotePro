@@ -30,5 +30,15 @@ namespace NotePro
         
         public Note Note { get; }
     }
+
+    public class ApplyFilterAction
+    {
+        public ApplyFilterAction(Filter filter)
+        {
+            Filter = filter;
+        }
+
+        public Filter Filter { get; }
+    }
     
 }
