@@ -32,9 +32,22 @@ namespace NotePro
                                     leading: new Icon(Icons.book, color: Colors.black),
                                     title: new Text(L.of(context).Notebook, style: Theme.of(context).textTheme.title)
                                 ),
-                                new ListTile(
+                                new ExpansionTile(
                                     leading: new Icon(Icons.priority_high, color: Colors.black),
-                                    title: new Text(L.of(context).Priority, style: Theme.of(context).textTheme.title)
+                                    title: new Text(L.of(context).Priority, style: Theme.of(context).textTheme.title),
+                                    children: new List<Widget>()
+                                    {
+                                        new PriorityPicker(
+                                            model.Type == FilterType.ByPriority ? model.PriorityIndex : -1,
+                                            priorityIndex =>
+                                            {
+                                                dispatcher.dispatch(
+                                                    new ApplyFilterAction(Filter.ByPriority(context, priorityIndex)));
+
+                                                Navigator.of(context).pop();
+                                            }, 300),
+                                        new SizedBox(height: 20)
+                                    }
                                 ),
                                 new ExpansionTile(
                                     leading: new Icon(Icons.color_lens, color: Colors.black),

@@ -12,10 +12,13 @@ namespace NotePro
 
         public Action<int> OnTap;
 
-        public PriorityPicker(int index, Action<int> onTap)
+        public float? Width;
+
+        public PriorityPicker(int index, Action<int> onTap, float? width = null)
         {
             Index = index;
             OnTap = onTap;
+            Width = width;
         }
 
 
@@ -47,12 +50,15 @@ namespace NotePro
         {
             base.initState();
             mSelectedIndex = widget.Index;
+            
+            if (widget.Width == null)
+            {
+                widget.Width = MediaQuery.of(context).size.width;
+            }
         }
 
         public override Widget build(BuildContext context)
         {
-            var width = MediaQuery.of(context).size.width;
-
             return new SizedBox(
                 height: 60,
                 child: ListView.builder(
@@ -68,7 +74,7 @@ namespace NotePro
                             },
                             child: new Container(
                                 padding: EdgeInsets.all(8),
-                                width: width / 3,
+                                width: widget.Width / 3,
                                 child: new Container(
                                     child: new Center(
                                         child: new Text(

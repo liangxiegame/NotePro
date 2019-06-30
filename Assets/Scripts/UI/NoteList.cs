@@ -32,10 +32,13 @@ namespace NotePro
                                 case FilterType.ByAll:
                                     return true;
                                 case FilterType.ByColor:
-
-                                    text = new ColorCircle(filter.ColorIndex,size:35);
-
+                                    text = new ColorCircle(filter.ColorIndex, size: 35);
                                     return note.ColorIndex == filter.ColorIndex;
+                                case FilterType.ByPriority:
+                                    text = new Text(Utils.PriorityText(filter.PriorityIndex),
+                                        style: Theme.of(context).textTheme.headline
+                                            .copyWith(color: Utils.PriorityColor(filter.PriorityIndex)));
+                                    return note.Priority == filter.PriorityIndex;
                                 default:
                                     return false;
                             }

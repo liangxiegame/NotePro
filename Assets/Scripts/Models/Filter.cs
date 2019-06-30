@@ -31,7 +31,7 @@ namespace NotePro
                 Type = FilterType.ByAll
             };
         }
-        
+
         public static Filter ByColor(BuildContext context, int colorIndex)
         {
             return new Filter()
@@ -42,10 +42,22 @@ namespace NotePro
             };
         }
 
+        public static Filter ByPriority(BuildContext context, int priorityIndex)
+        {
+            return new Filter()
+            {
+                Title = L.of(context).Priority,
+                Type = FilterType.ByPriority,
+                PriorityIndex = priorityIndex
+            };
+        }
+
         public string Title;
 
         public FilterType Type;
 
         public int ColorIndex;
+
+        public int PriorityIndex;
     }
 }

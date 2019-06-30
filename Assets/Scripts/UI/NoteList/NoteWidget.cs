@@ -20,42 +20,6 @@ namespace NotePro
             mOnClick = onClick;
         }
 
-        Color mPriorityColor
-        {
-            get
-            {
-                switch (mNote.Priority)
-                {
-                    case 0:
-                        return Colors.green;
-                    case 1:
-                        return Colors.yellow;
-                    case 2:
-                        return Colors.red;
-                }
-
-                return Colors.yellow;
-            }
-        }
-
-        string mPriorityText
-        {
-            get
-            {
-                switch (mNote.Priority)
-                {
-                    case 0:
-                        return "!";
-                    case 1:
-                        return "!!";
-                    case 2:
-                        return "!!!";
-                }
-
-                return "!!";
-            }
-        }
-
         public override Widget build(BuildContext context)
         {
             return new GestureDetector(
@@ -85,7 +49,8 @@ namespace NotePro
                                                     )
                                                 )
                                             ),
-                                            new Text(mPriorityText, style: new TextStyle(color: mPriorityColor))
+                                            new Text(Utils.PriorityText(mNote.Priority),
+                                                style: new TextStyle(color: Utils.PriorityColor(mNote.Priority)))
                                         }
                                     ),
                                     new Padding(
