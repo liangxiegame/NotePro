@@ -5,23 +5,26 @@ namespace NotePro
 {
     public class AppReducer
     {
-        public static AppState Reduce(AppState previousstate, object action)
+        public static AppState Reduce(AppState previoustate, object action)
         {
             switch (action)
             {
                 case AddNoteAction addNoteAction:
                     addNoteAction.Note.Date = DateTime.Now.ToString("MMM-dd yyyy");
-                    previousstate.Notes.Add(addNoteAction.Note);
-                    return previousstate;
+                    previoustate.Notes.Add(addNoteAction.Note);
+                    return previoustate;
                 case UpdateNoteAction updateNoteAction:
                     updateNoteAction.Note.Date = DateTime.Now.ToString("MMM-dd yyyy");
-                    return previousstate;
+                    return previoustate;
                 case DeleteNoteAction deleteNoteAction:
-                    previousstate.Notes.Remove(deleteNoteAction.Note);
-                    return previousstate;
+                    previoustate.Notes.Remove(deleteNoteAction.Note);
+                    return previoustate;
+                case ApplyFilterAction applyFilterAction:
+                    previoustate.Filter = applyFilterAction.Filter;
+                    return previoustate;
             }
 
-            return previousstate;
+            return previoustate;
         }
     }
 }

@@ -25,9 +25,15 @@ namespace NotePro
 
         public virtual string DeleteNote => "Delete Note ?";
         public virtual string DeleteNoteContent => "Are you sure you want to delete this note ?";
-        
-        public virtual string Title       => "Title";
+
+        public virtual string Title => "Title";
         public virtual string Description => "Description";
 
+
+        public virtual string Inbox => "Inbox";
+
+        public virtual string Color => "Color";
+
+        public virtual string Priority => "Priority";
     }
 }
