@@ -36,9 +36,11 @@ namespace NotePro
                         DefaultMaterialLocalizations.del
                     },
                     supportedLocales: CustomLocalizationDelegate.SupportedLocales,
-
                     theme: new ThemeData(
                         primarySwatch: Colors.deepPurple,
+                        iconTheme: new IconThemeData(
+                            color: Colors.black
+                        ),
                         textTheme: new TextTheme(
                             headline: new TextStyle(
                                 fontFamily: "Sans Bold",
@@ -58,13 +60,13 @@ namespace NotePro
                                 fontSize: 18,
                                 color: Colors.black
                             ),
-                            body1:new TextStyle(
+                            body1: new TextStyle(
                                 fontFamily: "Sans Regular",
                                 fontWeight: FontWeight.normal,
                                 fontSize: 16,
                                 color: Colors.black
                             ),
-                            body2:new TextStyle(
+                            body2: new TextStyle(
                                 fontFamily: "Sans Regular",
                                 fontWeight: FontWeight.normal,
                                 fontSize: 16,

@@ -3,7 +3,6 @@ using Unity.UIWidgets.material;
 using Unity.UIWidgets.painting;
 using Unity.UIWidgets.Redux;
 using Unity.UIWidgets.widgets;
-using UnityEngine;
 
 namespace NotePro
 {
@@ -18,10 +17,11 @@ namespace NotePro
                     ),
                     centerTitle: true,
                     backgroundColor: Colors.white,
-                    elevation: 0
+                    elevation: 0,
+                    iconTheme: Theme.of(context).iconTheme
                 ),
-                floatingActionButton:
-                new FloatingActionButton(
+                drawer: new SideDrawer(),
+                floatingActionButton: new FloatingActionButton(
                     child: new Icon(Icons.add, color: Colors.black),
                     onPressed: () =>
                     {
