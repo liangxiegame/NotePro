@@ -55,6 +55,7 @@ namespace NotePro
             mDescriptionController = new TextEditingController(widget.Note.Description);
             mPriorityIndex = widget.Note.Priority;
             mColorIndex = widget.Note.ColorIndex;
+            mNotebookId = widget.Note.NotebookId;
         }
 
 
@@ -62,6 +63,7 @@ namespace NotePro
         private TextEditingController mDescriptionController;
         private int                   mPriorityIndex = 0;
         private int                   mColorIndex    = 0;
+        private string                mNotebookId    = string.Empty;
 
         public bool SaveBtnVisible
         {
@@ -77,7 +79,8 @@ namespace NotePro
                            (widget.Note.Title != mTitleController.text ||
                             widget.Note.Description != mDescriptionController.text ||
                             widget.Note.Priority != mPriorityIndex ||
-                            widget.Note.ColorIndex != mColorIndex);
+                            widget.Note.ColorIndex != mColorIndex ||
+                            widget.Note.NotebookId != mNotebookId);
                 }
             }
         }
@@ -178,8 +181,8 @@ namespace NotePro
 
         public override Widget build(BuildContext context)
         {
-            return new StoreConnector<AppState, object>(
-                converter: state => null,
+            return new StoreConnector<AppState, AppState>(
+                converter: state => state,
                 builder: (buildContext, model, dispatcher) =>
                 {
                     return new Scaffold(
@@ -214,6 +217,7 @@ namespace NotePro
                                             widget.Note.Description = mDescriptionController.text;
                                             widget.Note.Priority = mPriorityIndex;
                                             widget.Note.ColorIndex = mColorIndex;
+                                            widget.Note.NotebookId = mNotebookId;
 
 
                                             if (widget.Mode == NoteEditorMode.CREATION)
@@ -285,11 +289,28 @@ namespace NotePro
                                                         )
                                                     ),
                                                     new Row(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: new List<Widget>
                                                         {
                                                             new OutlineButton(
-                                                                child: new Text("Markdown 预览",
+                                                                child: new Text(
+                                                                    Utils.GetNotebookName(model.Notebooks, mNotebookId,
+                                                                        L.of(context).SelectNotebook),
+                                                                    style: Theme.of(context).textTheme.subhead),
+                                                                onPressed: () =>
+                                                                {
+                                                                    DialogUtils.showDialog(context,
+                                                                        builder: context1 =>
+                                                                            new NotebookPicker(mNotebookId,
+                                                                                selectedId =>
+                                                                                {
+                                                                                    mNotebookId = selectedId;
+                                                                                    setState(() => { });
+                                                                                }));
+                                                                }
+                                                            ),
+                                                            new OutlineButton(
+                                                                child: new Text(L.of(context).MarkdownPreview,
                                                                     style: Theme.of(context).textTheme.subhead),
                                                                 onPressed: () =>
                                                                 {

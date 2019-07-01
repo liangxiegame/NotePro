@@ -1,9 +1,10 @@
-using System;
 using System.Collections.Generic;
 using Unity.UIWidgets.material;
 using Unity.UIWidgets.Redux;
+using Unity.UIWidgets.ui;
 using Unity.UIWidgets.widgets;
-using UnityEngine.AI;
+using UnityEngine.Assertions.Must;
+using DialogUtils = Unity.UIWidgets.material.DialogUtils;
 
 namespace NotePro
 {
@@ -11,13 +12,13 @@ namespace NotePro
     {
         public override Widget build(BuildContext context)
         {
-            return new StoreConnector<AppState, Filter>(
-                converter: state => state.Filter,
+            return new StoreConnector<AppState, AppState>(
+                converter: state => state,
                 builder: (buildContext, model, dispatcher) =>
                 {
                     return new Drawer(
                         child: new ListView(
-                            children: new List<Widget>()
+                            children: new List<Widget>
                             {
                                 new ListTile(
                                     leading: new Icon(Icons.inbox, color: Colors.black),
@@ -28,17 +29,16 @@ namespace NotePro
                                         Navigator.of(context).pop();
                                     }
                                 ),
-                                new ListTile(
-                                    leading: new Icon(Icons.book, color: Colors.black),
-                                    title: new Text(L.of(context).Notebook, style: Theme.of(context).textTheme.title)
-                                ),
+                                new NotebookDrawerItem(),
                                 new ExpansionTile(
                                     leading: new Icon(Icons.priority_high, color: Colors.black),
                                     title: new Text(L.of(context).Priority, style: Theme.of(context).textTheme.title),
                                     children: new List<Widget>()
                                     {
                                         new PriorityPicker(
-                                            model.Type == FilterType.ByPriority ? model.PriorityIndex : -1,
+                                            model.Filter.Type == FilterType.ByPriority
+                                                ? model.Filter.PriorityIndex
+                                                : -1,
                                             priorityIndex =>
                                             {
                                                 dispatcher.dispatch(
@@ -54,7 +54,8 @@ namespace NotePro
                                     title: new Text(L.of(context).Color, style: Theme.of(context).textTheme.title),
                                     children: new List<Widget>()
                                     {
-                                        new ColorPicker(model.Type != FilterType.ByColor ? -1 : model.ColorIndex,
+                                        new ColorPicker(
+                                            model.Filter.Type != FilterType.ByColor ? -1 : model.Filter.ColorIndex,
                                             colorIndex =>
                                             {
                                                 dispatcher.dispatch(

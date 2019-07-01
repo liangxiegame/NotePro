@@ -50,15 +50,15 @@ namespace NotePro
         {
             base.initState();
             mSelectedIndex = widget.Index;
-            
-            if (widget.Width == null)
-            {
-                widget.Width = MediaQuery.of(context).size.width;
-            }
         }
 
         public override Widget build(BuildContext context)
         {
+            if (widget.Width == null)
+            {
+                widget.Width = MediaQuery.of(context).size.width;
+            }
+            
             return new SizedBox(
                 height: 60,
                 child: ListView.builder(

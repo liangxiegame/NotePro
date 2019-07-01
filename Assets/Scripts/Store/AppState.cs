@@ -7,6 +7,8 @@ namespace NotePro
     {
         public List<Note> Notes = new List<Note>();
 
+        public List<Notebook> Notebooks = new List<Notebook>();
+
         public Filter Filter = new Filter()
         {
             Title = L.IsChinese ? "收件箱" : "Inbox",

@@ -28,7 +28,8 @@ namespace NotePro
                             switch (filter.Type)
                             {
                                 case FilterType.ByInbox:
-                                    return note.Priority == 0 && note.ColorIndex == 0;
+                                    return note.Priority == 0 && note.ColorIndex == 0 &&
+                                           string.IsNullOrWhiteSpace(note.NotebookId);
                                 case FilterType.ByAll:
                                     return true;
                                 case FilterType.ByColor:
@@ -39,6 +40,8 @@ namespace NotePro
                                         style: Theme.of(context).textTheme.headline
                                             .copyWith(color: Utils.PriorityColor(filter.PriorityIndex)));
                                     return note.Priority == filter.PriorityIndex;
+                                case FilterType.ByNotebook:
+                                    return note.NotebookId == filter.NotebookId;
                                 default:
                                     return false;
                             }

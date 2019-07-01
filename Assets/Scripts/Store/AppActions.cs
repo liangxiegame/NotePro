@@ -17,7 +17,7 @@ namespace NotePro
         {
             Note = note;
         }
-        
+
         public Note Note { get; }
     }
 
@@ -27,7 +27,7 @@ namespace NotePro
         {
             Note = note;
         }
-        
+
         public Note Note { get; }
     }
 
@@ -40,5 +40,33 @@ namespace NotePro
 
         public Filter Filter { get; }
     }
-    
+
+    public class AddNotebookAction
+    {
+        public AddNotebookAction(Notebook notebook)
+        {
+            Notebook = notebook;
+        }
+
+        public Notebook Notebook { get; }
+    }
+
+    public class UpdateNotebookAction
+    {
+        public UpdateNotebookAction(Notebook notebook)
+        {
+            Notebook = notebook;
+        }
+
+        public Notebook Notebook { get; }
+    }
+
+    public class DeleteNotebookAction
+    {
+        public Notebook Notebook { get; }
+        public DeleteNotebookAction(Notebook notebook)
+        {
+            Notebook = notebook;
+        }
+    }
 }

@@ -22,6 +22,24 @@ namespace NotePro
                 case ApplyFilterAction applyFilterAction:
                     previousState.Filter = applyFilterAction.Filter;
                     return previousState;
+                case AddNotebookAction addNotebookAction:
+                    previousState.Notebooks.Add(addNotebookAction.Notebook);
+                    return previousState;
+                case UpdateNotebookAction updateNotebookAction:
+                    return previousState;
+                case DeleteNotebookAction deleteNotebookAction:
+
+                    previousState.Notes.ForEach(note =>
+                    {
+                        if (note.NotebookId == deleteNotebookAction.Notebook.Id)
+                        {
+                            note.NotebookId = null;
+                        }
+                    });
+
+                    previousState.Notebooks.Remove(deleteNotebookAction.Notebook);
+
+                    return previousState;
             }
 
             return previousState;

@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Unity.UIWidgets.material;
 using Unity.UIWidgets.ui;
+using Unity.UIWidgets.widgets;
 
 namespace NotePro
 {
@@ -33,6 +35,13 @@ namespace NotePro
             }
 
             return "!!";
+        }
+
+        public static string GetNotebookName(List<Notebook> notebooks, string id, string defaultName)
+        {
+            var book = notebooks.Find(notebook => notebook.Id == id);
+
+            return book?.Name ?? defaultName;
         }
     }
 }

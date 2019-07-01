@@ -52,6 +52,16 @@ namespace NotePro
             };
         }
 
+        public static Filter ByNotebook(BuildContext context, string notebookId, string notebookName)
+        {
+            return new Filter()
+            {
+                Title = notebookName,
+                Type = FilterType.ByNotebook,
+                NotebookId = notebookId
+            };
+        }
+
         public string Title;
 
         public FilterType Type;
@@ -59,5 +69,7 @@ namespace NotePro
         public int ColorIndex;
 
         public int PriorityIndex;
+
+        public string NotebookId;
     }
 }

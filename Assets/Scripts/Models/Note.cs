@@ -15,5 +15,7 @@ namespace NotePro
         public int ColorIndex;
 
         public string Date;
+
+        public string NotebookId;
     }
 }

@@ -47,5 +47,31 @@ namespace NotePro
         public virtual string Notebook => "Notebook";
 
         #endregion
+
+
+        #region 笔记本
+
+        public virtual string CreateNotebook => "Create Notebook";
+
+        public virtual string EditNotebook => "Edit Notebook";
+
+        public virtual string NameOfNotebook => "Name of notebook";
+
+        public virtual string Delete => "Delete";
+
+        public virtual string Create => "Create";
+
+        public virtual string Save => "Save";
+
+
+        public virtual string Cancel => "Cancel";
+
+        public virtual string SelectNotebook => "Please select a notebook";
+
+        public virtual string MarkdownPreview => "Markdown preview";
+
+        public virtual string NoneSelect => "None";
+
+        #endregion
     }
 }
