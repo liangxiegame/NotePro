@@ -61,8 +61,23 @@ namespace NotePro
                             child: new Icon(Icons.add, color: Colors.black),
                             onPressed: () =>
                             {
+                                var note = new Note();
+
+                                if (filter.Type == FilterType.ByPriority)
+                                {
+                                    note.Priority = filter.PriorityIndex;
+                                }
+                                else if (filter.Type == FilterType.ByColor)
+                                {
+                                    note.ColorIndex = filter.ColorIndex;
+                                }
+                                else if (filter.Type == FilterType.ByNotebook)
+                                {
+                                    note.NotebookId = filter.NotebookId;
+                                }
+
                                 Navigator.of(context).push(new MaterialPageRoute(
-                                        buildContext => new NoteEditor(NoteEditorMode.CREATION, new Note())
+                                        buildContext => new NoteEditor(NoteEditorMode.CREATION, note)
                                     )
                                 );
                             },
